@@ -1,7 +1,7 @@
 # Flick_Fever
 
 
-//![Flick Fever Logo](./images/logo.png)
+![Flick Fever Logo](./images/logo.png)
 
 Flick Fever is your ultimate movie discovery app. Stay updated with the latest and most popular movies, watch trailers, and find detailed information about your favourite films. 
 
