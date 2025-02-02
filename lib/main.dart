@@ -1,5 +1,4 @@
-import 'package:flick_fever/screens/home_screen.dart';
-import 'package:flick_fever/widgets/trending_movies.dart';
+ import 'package:flick_fever/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {

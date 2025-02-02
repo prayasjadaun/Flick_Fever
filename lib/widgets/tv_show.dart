@@ -1,6 +1,5 @@
 import 'package:flick_fever/utils/text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 import 'description.dart';
 
@@ -23,68 +22,76 @@ class TvShow extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          Container(
+          SizedBox(
             height: 200,
             child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: tvShow.length,
                 itemBuilder: (context, index) {
+                  final show = tvShow[index];
+                  final name = show['original_name'] ?? 'No Name';
+                  final backdropPath = show['backdrop_path'];
+                  final posterPath = show['poster_path'];
+                  final overview = show['overview'] ?? 'No Description';
+                  final voteAverage = show['vote_average']?.toString() ?? '0';
+                  final releaseDate = show['release_date'] ?? 'Unknown';
+
                   return InkWell(
                     onTap: () {
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Description(
-                                name: tvShow[index]['original_name'] ?? 'No Name',
-                                description: tvShow[index]['overview'] ?? 'No Description',
-                                bannerurl: tvShow[index]['backdrop_path'] != null
-                                    ? 'https://image.tmdb.org/t/p/w500' +
-                                    tvShow[index]['backdrop_path']
-                                    : 'https://via.placeholder.com/500',
-                                posterurl: tvShow[index]['poster_path'] != null
-                                    ? 'https://image.tmdb.org/t/p/w500' +
-                                    tvShow[index]['poster_path']
-                                    : 'https://via.placeholder.com/500',
-                                vote: tvShow[index]['vote_average']?.toString() ?? '0',
-                                launch_on: tvShow[index]['release_date'] ?? 'Unknown',
-                              )));
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Description(
+                            name: name,
+                            description: overview,
+                            bannerurl: backdropPath != null
+                                ? 'https://image.tmdb.org/t/p/w500$backdropPath'
+                                : 'https://archive.org/download/placeholder-image/placeholder-image.jpg',
+                            posterurl: posterPath != null
+                                ? 'https://image.tmdb.org/t/p/w500$posterPath'
+                                : 'https://archive.org/download/placeholder-image/placeholder-image.jpg',
+                            vote: voteAverage,
+                            launch_on: releaseDate,
+                          ),
+                        ),
+                      );
                     },
-                    child: tvShow[index]['original_name'] != null
-                        ? Container(
-                            padding: EdgeInsets.all(5),
+                    child: Container(
+                      padding: EdgeInsets.all(5),
+                      width: 250,
+                      child: Column(
+                        children: [
+                          Container(
                             width: 250,
-                            child: Column(
-                              children: [
-                                Container(
-                                  width: 250,
-                                  height: 140,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20),
-                                      image: DecorationImage(
-                                          image: NetworkImage(
-                                              'https://image.tmdb.org/t/p/w500' +
-                                                  tvShow[index]
-                                                      ['backdrop_path']),
-                                          fit: BoxFit.cover)),
+                            height: 140,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              image: DecorationImage(
+                                image: NetworkImage(
+                                  backdropPath != null
+                                      ? 'https://image.tmdb.org/t/p/w500$backdropPath'
+                                      : 'https://archive.org/download/placeholder-image/placeholder-image.jpg',
                                 ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                Container(
-                                  child: modifiedText(
-                                    text: tvShow[index]['original_name'] ??
-                                        'loading',
-                                    size: 15,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ],
+                                fit: BoxFit.cover,
+                              ),
                             ),
-                          )
-                        : Container(),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          SizedBox(
+                            child: modifiedText(
+                              text: name,
+                              size: 15,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   );
                 }),
-          )
+          ),
         ],
       ),
     );
